@@ -7,5 +7,5 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  base: "/cel3ntano/",
+  base: "/cel3ntano.github.io/",
 });
