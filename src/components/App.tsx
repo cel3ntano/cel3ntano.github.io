@@ -1,10 +1,13 @@
-import "./App.css";
-import Hero from "./Hero/Hero";
+import { Footer } from './Footer/Footer';
+import Header from './Header/Header';
+import Main from './Main/Main';
 
 export default function App() {
   return (
     <>
-      <Hero />
+      <Header></Header>
+      <Main></Main>
+      <Footer></Footer>
     </>
   );
 }
