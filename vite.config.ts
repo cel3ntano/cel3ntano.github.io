@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
   },
-  base: '/cel3ntano.github.io/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
