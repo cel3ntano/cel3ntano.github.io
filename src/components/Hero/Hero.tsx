@@ -2,8 +2,6 @@ import { motion } from 'framer-motion';
 import { BrowserRouter } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import css from './Hero.module.css';
-
-import Illustration from '@/assets/illustration.svg';
 import computerCoding from '@/assets/computer_coding.webp';
 import linkedin from '@/assets/linkedin.svg';
 import githubIcon from '@/assets/github.svg';
@@ -88,8 +86,7 @@ export default function Hero() {
         initial={{ opacity: 0, x: 100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 1 }}>
-        <img src={computerCoding} alt='illustration' />
-        {/* <img src={Illustration} alt='illustration' /> */}
+        <img src={computerCoding} alt='Abstract programming laptop' />
       </motion.div>
     </section>
   );
