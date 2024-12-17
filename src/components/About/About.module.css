@@ -1,0 +1,74 @@
+.container {
+  margin-top: 12rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.hardSkills {
+  margin-top: 1.6rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.8rem;
+}
+
+.ability {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ability img {
+  width: 3.4rem;
+}
+
+.container h2 {
+  display: inline-block;
+  margin-bottom: 2rem;
+  font-size: 3rem;
+  margin-top: 0;
+  color: var(--green);
+}
+
+.container h3 {
+  margin-top: 2rem;
+  color: var(--green);
+}
+
+.container p {
+  font-size: 1.8rem;
+  letter-spacing: 0.1rem;
+  font-weight: 500;
+}
+
+.aboutImage {
+  text-align: center;
+}
+
+.aboutImage img {
+  margin-top: 2rem;
+  width: 75%;
+  filter: grayscale(0);
+  transition: filter 0.5s;
+}
+
+.aboutImage img:hover {
+  filter: grayscale(0);
+}
+
+@media (max-width: 960px) {
+  .container {
+    display: block;
+    text-align: center;
+  }
+
+  .hardSkills {
+    justify-content: center;
+  }
+
+  .aboutImage img {
+    margin-top: 2rem;
+    max-width: 50%;
+  }
+}
