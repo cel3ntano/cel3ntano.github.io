@@ -9,9 +9,11 @@
 .header h2 {
   text-align: center;
   font-size: 4rem;
+  margin-bottom: 3rem;
 }
 
 .header p {
+  padding: 0.5rem 0;
   color: var(--green);
   font-weight: 500;
 }
@@ -20,7 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
+  gap: 3rem;
   place-items: center;
   margin-top: 2.2rem;
 }
@@ -34,7 +36,7 @@
   gap: 2rem;
   background-color: var(--green);
   border-radius: 1.4rem;
-  padding: 1.6rem 2.8rem;
+  padding: 1.3rem 2.8rem;
   transition: background-color 0.25s;
 }
 

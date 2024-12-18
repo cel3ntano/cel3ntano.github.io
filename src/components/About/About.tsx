@@ -86,22 +86,23 @@ export default function About() {
         <motion.h2 variants={textVariants}>About me</motion.h2>
 
         <motion.p variants={textVariants}>
-          Hi! I'm Andrii, a full-stack developer dedicated to creating tailored
-          online solutions. With a background in HTML, CSS, JavaScript, React,
-          and Node.js, I can turn your website concepts into reality.
+          Welcome, and thank you for visiting my portfolio! Let me introduce
+          myself briefly. My passion for technology led me to start my journey
+          with the Google IT Support Professional Certificate, where I
+          discovered a love for coding — and that’s why I’m here today.
         </motion.p>
 
         <motion.p
           variants={textVariants}
           style={{ marginTop: '2rem', marginBottom: '2rem' }}>
-          My expertise includes CMS platforms like WordPress, equipping clients
-          with intuitive tools to manage and update their websites effortlessly.
+          With expertise in HTML, CSS, JavaScript, React, and Node.js, I
+          specialize in turning your website concepts into reality.
         </motion.p>
 
         <motion.p variants={textVariants}>
-          Whether you're looking for a brand-new website or a redesign, I'm here
-          to assist you. Let's collaborate to build a digital solution that
-          surpasses your expectations!
+          Whether you need a brand-new website or a redesign, I’m here to
+          collaborate with you and create digital solutions that exceed your
+          expectations. Let’s build something amazing together!
         </motion.p>
 
         <motion.h3 variants={textVariants}>My core skills include:</motion.h3>

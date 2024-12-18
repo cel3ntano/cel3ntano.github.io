@@ -4,18 +4,18 @@ import linkedin from '../../assets/linkedin.svg';
 import githubIcon from '../../assets/github.svg';
 import whatsapp from '../../assets/whatsapp.svg';
 import telegram from '../../assets/telegram.svg';
-import instagramIcon from '../../assets/instagram.svg';
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className={`${css.container} footer`}>
       <a href='https://projects.zhygalko.dev' className={css.logo}>
         <span>projects.zhygalko.dev</span>
-        {/* <span>singh.in</span> */}
       </a>
       <div className={css.content}>
         <p>
-          This Website is made with <img src={reactIcon} alt='React' />
+          This website is made with <img src={reactIcon} alt='React' />
+          {currentYear}
         </p>
       </div>
       <div className={css.socialMedia}>

@@ -33,12 +33,13 @@ export default function Contacts() {
         initial='hidden'
         whileInView='visible'
         viewport={{ once: true }}>
-        <motion.h2 variants={itemVariants}>Contact</motion.h2>
+        <motion.h2 variants={itemVariants}>Contacts</motion.h2>
         <motion.p variants={itemVariants}>
-          Excited to bring your project to life?
+          Excited to bring your project to life? Let’s connect!
         </motion.p>
         <motion.p variants={itemVariants}>
-          Let’s connect! Reach out now for a free consultation
+          Don’t hesitate to contact me to discuss your ideas or ask any
+          questions
         </motion.p>
       </motion.header>
 

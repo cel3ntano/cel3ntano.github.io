@@ -39,18 +39,10 @@ export default function Hero() {
         <motion.p variants={item}>
           Hello <img src={Hello} alt='Hello' width='20px' />, I'm
         </motion.p>
-
         <motion.h1 variants={item}>Andrii</motion.h1>
-
-        <motion.h3 variants={item}>Full Stack Developer</motion.h3>
-
-        <motion.p className={css.experience} variants={item}>
-          One Year of Experience
-        </motion.p>
-
-        <motion.div variants={item}>
+        <motion.div variants={item} className={`${css.button} button`}>
           <BrowserRouter>
-            <HashLink smooth to='#contacts' className={`${css.button} button`}>
+            <HashLink smooth to='#contacts'>
               Contact
             </HashLink>
           </BrowserRouter>
@@ -82,11 +74,14 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
-        className={css.heroImage}
-        initial={{ opacity: 0, x: 100 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 1 }}>
-        <img src={computerCoding} alt='Abstract programming laptop' />
+        variants={container}
+        initial='hidden'
+        animate='show'
+        className={css.specializationText}>
+        <motion.p variants={item} className={css.experience}>
+          I have one year of experience as a
+        </motion.p>
+        <motion.h3 variants={item}>Full Stack Developer</motion.h3>
       </motion.div>
     </section>
   );

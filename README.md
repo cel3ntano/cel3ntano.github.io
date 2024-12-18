@@ -1,8 +1,8 @@
 ## Hi there 👋
 
-- 💬 I'm Andrii, a junior front end developer
-- ⚙️ My technical skills currently include HTML, CSS, and JavaScript
-- 💻 I’m currently learning React
+- 💬 I'm Andrii, a full-stack developer
+- ⚙️ My technical skills currently include HTML, CSS, JavaScript and React
+- 💻 I’m currently learning Next.js
 - 🔭 I look forward to joining a team of developers and contributing to innovative projects
 <!--
 **cel3ntano/cel3ntano** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.

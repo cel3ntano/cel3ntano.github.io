@@ -9,7 +9,7 @@
   /* Colors */
   --violet: #6129d4;
   --black: #212121;
-  --white: #fff;
+  --white: #fcfcfc;
   --green: #23ce6b;
   --green-hover: #1ca555;
   --dark-green: #065828;
@@ -28,6 +28,7 @@
   --link-hover-color: #86f3b3;
   --logo-color: var(--white);
   --recaptcha-border: grey;
+  --shadow-color: rgb(254, 254, 254);
 
   /* Typography */
   --font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
