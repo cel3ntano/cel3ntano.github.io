@@ -99,7 +99,7 @@ export default function Main() {
             y: 1200,
           },
         },
-        warp: true,
+        warp: false,
         direction: 'none',
         enable: true,
         outModes: 'out',
@@ -108,7 +108,7 @@ export default function Main() {
         straight: false,
       },
       number: {
-        value: 15,
+        value: 12,
         limit: {
           mode: 'delete',
           value: 20,
@@ -148,7 +148,7 @@ export default function Main() {
       size: {
         value: {
           min: 12,
-          max: 20,
+          max: 16,
         },
         animation: {
           enable: true,
@@ -167,7 +167,7 @@ export default function Main() {
   };
 
   return (
-    <main className={css.container}>
+    <main className={`${css.container} container`}>
       {isEngineReady && <Particles id='tsparticles' options={options} />}
       <Hero />
       <About />

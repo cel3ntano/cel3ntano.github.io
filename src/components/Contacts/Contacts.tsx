@@ -26,7 +26,7 @@ export default function Contacts() {
   };
 
   return (
-    <section id='contacts' className={css.container}>
+    <section id='contacts' className={`${css.container} container`}>
       <motion.header
         className={css.header}
         variants={containerVariants}

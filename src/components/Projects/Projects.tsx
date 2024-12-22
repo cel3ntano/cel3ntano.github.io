@@ -26,7 +26,7 @@ export default function Projects() {
   };
 
   return (
-    <section id='projects' className={css.container}>
+    <section id='projects' className={`${css.container} container`}>
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}

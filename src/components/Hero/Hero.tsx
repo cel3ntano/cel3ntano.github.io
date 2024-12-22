@@ -30,7 +30,7 @@ export default function Hero() {
   };
 
   return (
-    <section id='home' className={css.container}>
+    <section id='home' className={`${css.container} container`}>
       <motion.div
         className={css.heroText}
         variants={container}
@@ -79,7 +79,7 @@ export default function Hero() {
         animate='show'
         className={css.specializationText}>
         <motion.p variants={item} className={css.experience}>
-          I have one year of experience as a
+          One year of hands-on experience as
         </motion.p>
         <motion.h3 variants={item}>Full Stack Developer</motion.h3>
       </motion.div>

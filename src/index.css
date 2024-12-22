@@ -71,6 +71,7 @@ html {
 }
 
 body {
+  transition: var(--transition-default);
   font-family: var(--font-family);
   font-size: 1.6rem;
   font-weight: var(--base-font-weight);
@@ -106,6 +107,7 @@ ol {
 }
 
 a {
+  transition: var(--transition-default);
   color: var(--link-color);
   text-decoration: none;
 }
@@ -142,11 +144,17 @@ button,
   }
 }
 
-#tsparticles {
+.container {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* #tsparticles {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
-}
+} */

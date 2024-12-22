@@ -5,7 +5,15 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   build: {
-    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
   },
   base: '/',
   resolve: {

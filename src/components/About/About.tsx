@@ -77,7 +77,7 @@ export default function About() {
   ];
 
   return (
-    <section id='about' className={css.container} ref={ref}>
+    <section id='about' className={`${css.container} container`} ref={ref}>
       <motion.div
         className={css.aboutText}
         variants={containerVariants}
