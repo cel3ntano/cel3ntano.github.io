@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion';
-import { BrowserRouter } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import css from './Hero.module.css';
-import computerCoding from '@/assets/computer_coding.webp';
 import linkedin from '@/assets/linkedin.svg';
 import githubIcon from '@/assets/github.svg';
 import whatsapp from '@/assets/whatsapp.svg';
@@ -41,11 +39,9 @@ export default function Hero() {
         </motion.p>
         <motion.h1 variants={item}>Andrii</motion.h1>
         <motion.div variants={item} className={`${css.button} button`}>
-          <BrowserRouter>
-            <HashLink smooth to='#contacts'>
-              Contact
-            </HashLink>
-          </BrowserRouter>
+          <HashLink smooth to='#contacts'>
+            Contact
+          </HashLink>
         </motion.div>
 
         <motion.div className={css.socialMedia} variants={item}>

@@ -107,24 +107,24 @@
 .themeLabel {
   cursor: pointer;
   text-indent: -9999px;
-  width: 55px;
-  height: 30px;
+  width: 45px;
+  height: 24px;
   background: var(--dark-green);
   border-radius: 100px;
   position: relative;
   margin-left: auto;
-  right: 10px;
+  right: 20px;
 }
 
 .themeLabel:after {
   content: '';
-  background: #fff;
+  background: #259b56;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   position: absolute;
-  top: 5px;
-  left: 4px;
+  top: 2px;
+  left: 2px;
   transition: var(--transition-smooth);
 }
 
@@ -133,8 +133,9 @@
 }
 
 .themeToggle:checked + .themeLabel:after {
-  left: calc(100% - 5px);
+  left: calc(100% - 2px);
   transform: translateX(-100%);
+  background: #fff;
 }
 
 @media (max-width: 960px) {

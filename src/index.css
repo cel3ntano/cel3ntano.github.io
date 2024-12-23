@@ -19,6 +19,8 @@
   --input-background: rgba(50, 50, 50, 0.909);
   --mobile-menu-backdrop: #092b17;
   --header-bg: #21212150;
+  --toolbar-bg: #3a3a3a50;
+  --pdf-viewer-bg: #21212150;
   --footer-bg: #2b2b2b;
   --text-color: var(--white);
   --placeholder-color: #929292;
@@ -54,7 +56,9 @@
   --link-hover-color: #31e47c;
   --link-color: #212121;
   --header-bg: #f5f5f550;
-  --mobile-menu-backdrop: #2c96a1;
+  --toolbar-bg: #fcfcfc;
+  --pdf-viewer-bg: #eaeaea;
+  --mobile-menu-backdrop: #cbffda;
   --input-background: rgba(240, 240, 240, 0.909);
   --green-hover: #1e8348;
 }

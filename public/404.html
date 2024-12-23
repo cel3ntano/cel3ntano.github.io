@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting...</title>
+    <script>
+      const pathSegments = window.location.pathname.split('/');
+      const repoName = 'cel3ntano.github.io';
+      const actualPath = pathSegments
+        .filter(segment => segment !== repoName && segment !== '')
+        .join('/');
+      sessionStorage.setItem('path', actualPath);
+      window.location.replace(`/${repoName}/`);
+    </script>
+  </head>
+  <body>
+    Redirecting...
+  </body>
+</html>
