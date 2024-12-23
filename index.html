@@ -10,10 +10,15 @@
     <div id="root"></div>
     <script>
       (function () {
-        const savedPath = sessionStorage.getItem('path');
-        if (savedPath) {
-          sessionStorage.removeItem('path');
-          window.history.replaceState(null, '', '/' + savedPath);
+        const redirectUrl = sessionStorage.getItem('redirectUrl');
+        if (redirectUrl) {
+          sessionStorage.removeItem('redirectUrl');
+          const url = new URL(redirectUrl);
+          window.history.replaceState(
+            null,
+            '',
+            url.pathname + url.search + url.hash
+          );
         }
       })();
     </script>

@@ -3,6 +3,7 @@ import CVPreview from './CVPreview/CVPreview';
 import Header from './Header/Header';
 import Main from './Main/Main';
 import { Footer } from './Footer/Footer';
+import NotFound from './NotFound/NotFound';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             </>
           }
         />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </Router>
   );

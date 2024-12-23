@@ -4,16 +4,18 @@
     <meta charset="utf-8" />
     <title>Redirecting...</title>
     <script>
-      const pathSegments = window.location.pathname.split('/');
-      const repoName = 'cel3ntano.github.io';
-      const actualPath = pathSegments
-        .filter(segment => segment !== repoName && segment !== '')
-        .join('/');
-      sessionStorage.setItem('path', actualPath);
-      window.location.replace(`/${repoName}/`);
+      (function () {
+        const l = window.location;
+        const origin =
+          l.origin ||
+          `${l.protocol}//${l.hostname}${l.port ? ':' + l.port : ''}`;
+        const repoName = 'cel3ntano.github.io';
+        sessionStorage.setItem('redirectUrl', l.href);
+        window.location.replace(`${origin}/${repoName}${l.search}${l.hash}`);
+      })();
     </script>
   </head>
   <body>
-    Redirecting...
+    <noscript> Please enable JavaScript to view this page. </noscript>
   </body>
 </html>

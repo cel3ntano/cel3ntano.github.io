@@ -105,7 +105,7 @@ export default function CVPreview() {
 
   return (
     <div className={css.container}>
-      <header className={clsx(css.header, 'container')}>
+      <header className={clsx(css.header)}>
         <div className={clsx(css.toolbar)}>
           <Link to='/' className={css.backLink}>
             <span className={css.backSymbol}>{'<'}</span>
