@@ -1,11 +1,13 @@
-import { useState, useLayoutEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import css from './Header.module.css';
+import EnhancedObserverDebug from '../EnhancedObserverDebug/EnhancedObserverDebug';
 
 export default function Header() {
+  const [showDebugOverlay, setShowDebugOverlay] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isLightTheme, setIsLightTheme] = useState(() => {
@@ -13,30 +15,96 @@ export default function Header() {
     return savedTheme === 'light';
   });
 
-  useLayoutEffect(() => {
+  // useEffect(() => {
+  //   const handleKeyPress = (event: KeyboardEvent) => {
+  //     if (event.altKey && event.key === 'd') {
+  //       setShowDebugOverlay(prev => !prev);
+  //     }
+  //   };
+
+  //   window.addEventListener('keydown', handleKeyPress);
+  //   return () => window.removeEventListener('keydown', handleKeyPress);
+  // }, []);
+
+  const createObserver = useCallback(() => {
+    const observerOptions = {
+      rootMargin: '-40% 0px -50% 0px',
+      // threshold: 0.2,
+    };
+
+    return new IntersectionObserver(entries => {
+      const visibleSections = entries
+        .filter(entry => entry.isIntersecting)
+        .map(entry => ({
+          id: entry.target.id,
+          ratio: entry.intersectionRatio,
+          distanceFromTop: entry.boundingClientRect.top,
+        }));
+
+      // console.log('Visible sections:', visibleSections);
+
+      if (visibleSections.length > 0) {
+        const mostVisible = visibleSections.reduce((prev, current) => {
+          if (current.ratio > prev.ratio + 0.2) return current;
+          if (Math.abs(current.ratio - prev.ratio) <= 0.2) {
+            return current.distanceFromTop < prev.distanceFromTop
+              ? current
+              : prev;
+          }
+          return prev;
+        });
+
+        setActiveSection(mostVisible.id);
+      }
+    }, observerOptions);
+  }, []);
+
+  useEffect(() => {
     if (isLightTheme) {
       document.documentElement.classList.add('light');
     }
   }, []);
 
-  useLayoutEffect(() => {
-    const observerOptions = {
-      rootMargin: '-40% 0px -50% 0px',
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.add('light');
+    }
+  }, []);
+
+  useEffect(() => {
+    let observer = createObserver();
+    let retryCount = 0;
+    const maxRetries = 5;
+    const retryInterval = 1000;
+
+    const setupObserver = () => {
+      const sections = document.querySelectorAll('section[id]');
+
+      if (sections.length > 0) {
+        sections.forEach(section => observer.observe(section));
+        return true;
+      }
+      return false;
     };
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
+    if (!setupObserver() && retryCount < maxRetries) {
+      const retryTimer = setInterval(() => {
+        if (setupObserver() || retryCount >= maxRetries) {
+          clearInterval(retryTimer);
         }
-      });
-    }, observerOptions);
+        retryCount++;
+      }, retryInterval);
 
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach(section => observer.observe(section));
+      return () => {
+        clearInterval(retryTimer);
+      };
+    }
 
-    return () => observer.disconnect();
-  }, []);
+    return () => {
+      observer.disconnect();
+    };
+  }, [createObserver]);
 
   function toggleTheme() {
     const html = document.documentElement;
@@ -141,6 +209,11 @@ export default function Header() {
           onClick={() => setMenuOpen(!menuOpen)}
         />
       </div>
+      {/* <EnhancedObserverDebug
+        topMargin='-40%'
+        bottomMargin='-50%'
+        isVisible={showDebugOverlay}
+      /> */}
     </motion.header>
   );
 }

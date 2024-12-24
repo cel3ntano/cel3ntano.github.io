@@ -46,7 +46,8 @@
 
   /* Transitions */
   --transition-default: 0.2s ease;
-  --transition-smooth: cubic-bezier(0.68, -0.55, 0.27, 01.55) 320ms;
+  --transition-slow: 0.8s ease;
+  --transition-smooth: cubic-bezier(0.68, -0.4, 0.27, 1.4) 350ms;
 }
 
 /* Light Theme */
