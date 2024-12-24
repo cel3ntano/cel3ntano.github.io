@@ -5,7 +5,7 @@ import githubIcon from '../../assets/github.svg';
 import whatsapp from '../../assets/whatsapp.svg';
 import telegram from '../../assets/telegram.svg';
 
-export function Footer() {
+export default function Footer() {
   const currentYear = new Date().getFullYear();
   return (
     <footer className={css.footer}>

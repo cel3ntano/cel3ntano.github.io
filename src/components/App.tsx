@@ -1,26 +1,46 @@
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CVPreview from './CVPreview/CVPreview';
 import Header from './Header/Header';
-import Main from './Main/Main';
-import { Footer } from './Footer/Footer';
-import NotFound from './NotFound/NotFound';
+import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
+const CVPreview = lazy(() => import('./CVPreview/CVPreview'));
+const Main = lazy(() => import('./Main/Main'));
+const Footer = lazy(() => import('./Footer/Footer'));
+const NotFound = lazy(() => import('./NotFound/NotFound'));
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path='/cv' element={<CVPreview />} />
+        <Route
+          path='/cv'
+          element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <CVPreview />
+            </Suspense>
+          }
+        />
         <Route
           path='/'
           element={
             <>
               <Header />
-              <Main />
-              <Footer />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Main />
+              </Suspense>
+              <Suspense fallback={null}>
+                <Footer />
+              </Suspense>
             </>
           }
         />
-        <Route path='*' element={<NotFound />} />
+        <Route
+          path='*'
+          element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Routes>
     </Router>
   );

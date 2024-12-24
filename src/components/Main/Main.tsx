@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 import { type Engine, type ISourceOptions } from '@tsparticles/engine';
-import Hero from '../Hero/Hero';
-import About from '../About/About';
-import Contacts from '../Contacts/Contacts';
-import Projects from '../Projects/Projects';
 import css from './Main.module.css';
 import wordpress from '@/assets/wordpress.svg';
 import htmlIcon from '@/assets/html-icon.svg';
@@ -15,6 +11,11 @@ import nodeIcon from '@/assets/node-icon.svg';
 import reactIcon from '@/assets/react-icon.svg';
 import vscodeIcon from '@/assets/vscode-icon.svg';
 import typescriptIcon from '@/assets/typescript-icon.svg';
+
+const Hero = lazy(() => import('../Hero/Hero'));
+const About = lazy(() => import('../About/About'));
+const Projects = lazy(() => import('../Projects/Projects'));
+const Contacts = lazy(() => import('../Contacts/Contacts'));
 
 export default function Main() {
   const [isEngineReady, setIsEngineReady] = useState(false);
@@ -169,10 +170,21 @@ export default function Main() {
   return (
     <main className={`${css.container} container`}>
       {isEngineReady && <Particles id='tsparticles' options={options} />}
-      <Hero />
-      <About />
-      <Projects />
-      <Contacts />
+      <Suspense fallback={null}>
+        <Hero />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <About />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <Projects />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <Contacts />
+      </Suspense>
     </main>
   );
 }
