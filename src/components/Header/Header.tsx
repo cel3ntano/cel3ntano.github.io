@@ -1,47 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import { HashLink } from 'react-router-hash-link';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import css from './Header.module.css';
-import { Link } from 'react-router-dom';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [isLightTheme, setIsLightTheme] = useState(() => {
-    const html = document.getElementsByTagName('html')[0];
-    return html.classList.contains('light');
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme === 'light';
   });
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    const html = document.getElementsByTagName('html')[0];
-
-    if (savedTheme === 'light') {
-      html.classList.add('light');
-      setIsLightTheme(true);
+  useLayoutEffect(() => {
+    if (isLightTheme) {
+      document.documentElement.classList.add('light');
     }
   }, []);
 
-  function toggleTheme() {
-    const html = document.getElementsByTagName('html')[0];
-    const newTheme = html.classList.contains('light') ? 'dark' : 'light';
-
-    if (newTheme === 'light') {
-      html.classList.add('light');
-      setIsLightTheme(true);
-    } else {
-      html.classList.remove('light');
-      setIsLightTheme(false);
-    }
-
-    localStorage.setItem('theme', newTheme);
-  }
-
-  function closeMenu() {
-    setMenuOpen(false);
-  }
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const observerOptions = {
       rootMargin: '-40% 0px -50% 0px',
     };
@@ -60,15 +38,43 @@ export default function Header() {
     return () => observer.disconnect();
   }, []);
 
+  function toggleTheme() {
+    const html = document.documentElement;
+    const newTheme = html.classList.contains('light') ? 'dark' : 'light';
+
+    if (newTheme === 'light') {
+      html.classList.add('light');
+      setIsLightTheme(true);
+    } else {
+      html.classList.remove('light');
+      setIsLightTheme(false);
+    }
+
+    localStorage.setItem('theme', newTheme);
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   return (
-    <header className={css.header}>
+    <motion.header
+      className={css.header}
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}>
       <div className={`${css.container} container`}>
-        <HashLink smooth to='#home' className={css.logo}>
-          <span className={css.symbol}>{'<'}</span>
-          <span>{'Andrii'}</span>
-          <span className={css.surname}>{'Zhygalko'}</span>
-          <span className={css.symbol}>{'/>'}</span>
-        </HashLink>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}>
+          <HashLink smooth to='#home' className={css.logo}>
+            <span className={css.symbol}>{'<'}</span>
+            <span>{'Andrii'}</span>
+            <span className={css.surname}>{'Zhygalko'}</span>
+            <span className={css.symbol}>{'/>'}</span>
+          </HashLink>
+        </motion.div>
 
         <input
           onChange={toggleTheme}
@@ -82,7 +88,11 @@ export default function Header() {
           Toggle
         </label>
 
-        <nav className={clsx('nav', css.nav, menuOpen && css.active)}>
+        <motion.nav
+          className={clsx('nav', css.nav, menuOpen && css.active)}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}>
           <HashLink
             smooth
             to='#home'
@@ -114,9 +124,12 @@ export default function Header() {
           <Link to='/cv' className={clsx(css.button, 'button')}>
             View CV
           </Link>
-        </nav>
+        </motion.nav>
 
-        <div
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
           aria-expanded={menuOpen ? 'true' : 'false'}
           aria-haspopup='true'
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -128,6 +141,6 @@ export default function Header() {
           onClick={() => setMenuOpen(!menuOpen)}
         />
       </div>
-    </header>
+    </motion.header>
   );
 }

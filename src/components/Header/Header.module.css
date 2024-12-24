@@ -7,6 +7,7 @@
   width: 100%;
   z-index: 1000;
   transition: var(--transition-default);
+  will-change: backdrop-filter;
 }
 
 .container {
@@ -14,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.8rem 2rem;
+  min-height: 7.5rem;
 }
 
 .nav {
@@ -29,9 +31,6 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  @media screen and (max-width: 430px) {
-    font-size: calc(2rem + ((1vw - 3.75px) * 2.7));
-  }
 }
 
 .symbol {
@@ -47,10 +46,11 @@
   font-weight: 500;
   text-transform: uppercase;
   transition: var(--transition-default);
+  padding-bottom: calc(0.5rem + 2px);
+}
 
-  &.button {
-    padding: 0.6rem 2rem;
-  }
+.nav a.button {
+  padding: 0.6rem 2rem;
 }
 
 .nav a:hover {
@@ -114,6 +114,7 @@
   position: relative;
   margin-left: auto;
   right: 20px;
+  transform: translateZ(0);
 }
 
 .themeLabel:after {
@@ -136,6 +137,22 @@
   left: calc(100% - 2px);
   transform: translateX(-100%);
   background: #fff;
+}
+
+.nav a.activeLink {
+  color: var(--active-link-color);
+  position: relative;
+}
+
+.activeLink::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--active-link-color);
+  transform: translateZ(0);
 }
 
 @media (max-width: 960px) {
@@ -168,23 +185,14 @@
   }
 }
 
-@media only screen and (max-width: 800px) {
+@media (max-width: 800px) {
   .themeLabel {
     position: relative;
   }
 }
 
-.nav a.activeLink {
-  color: var(--active-link-color);
-  position: relative;
-}
-
-.activeLink::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--active-link-color);
+@media screen and (max-width: 430px) {
+  .logo {
+    font-size: calc(2rem + ((1vw - 3.75px) * 2.7));
+  }
 }

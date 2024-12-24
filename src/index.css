@@ -11,6 +11,7 @@
   --black: #212121;
   --white: #fcfcfc;
   --green: #23ce6b;
+  --green-selection: #2fdc77ae;
   --green-hover: #1ca555;
   --dark-green: #065828;
   --light-green: #33ed80;
@@ -32,6 +33,7 @@
   --logo-color: var(--white);
   --recaptcha-border: grey;
   --shadow-color: rgb(254, 254, 254);
+  --green-hover-pdf: rgba(35, 206, 107, 0.2);
 
   /* Typography */
   --font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial,
