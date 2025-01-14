@@ -57,7 +57,10 @@ export default function Hero() {
             rel='noreferrer'>
             <img src={linkedin} alt='Linkedin' />
           </a>
-          <a href='https://t.me/cel3ntano' target='_blank' rel='noreferrer'>
+          <a
+            href='https://t.me/andrii_web_dev'
+            target='_blank'
+            rel='noreferrer'>
             <img src={telegram} alt='telegram' />
           </a>
           <a

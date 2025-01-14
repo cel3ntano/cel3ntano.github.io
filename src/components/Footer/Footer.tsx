@@ -40,7 +40,10 @@ export default function Footer() {
             rel='noreferrer'>
             <img src={whatsapp} alt='Whatsapp' />
           </a>
-          <a href='https://t.me/cel3ntano' target='_blank' rel='noreferrer'>
+          <a
+            href='https://t.me/andrii_web_dev'
+            target='_blank'
+            rel='noreferrer'>
             <img src={telegram} alt='Telegram' />
           </a>
         </div>

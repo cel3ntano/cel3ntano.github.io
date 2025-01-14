@@ -1,29 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Download } from 'lucide-react';
 import clsx from 'clsx';
 import * as pdfjsLib from 'pdfjs-dist';
 import * as pdfjsViewer from 'pdfjs-dist/web/pdf_viewer.mjs';
 import 'pdfjs-dist/web/pdf_viewer.css';
 import { getFileUrl } from '@/utils/supabaseClient';
-import { CV_CONFIG } from '@/data/cvConfig';
-import css from './CVPreview.module.css';
+import css from './HRPreview.module.css';
+import { HR_CONFIGS } from '@/data/hrConfigs';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
-export default function CVPreview() {
+export default function HRPreview() {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const initialized = useRef(false);
+  const navigate = useNavigate();
+  const { hrId } = useParams<{ hrId: string }>();
   const [pdfUrl, setPdfUrl] = useState<string>();
 
-  useEffect(() => {
-    document.title = CV_CONFIG.title;
+  const hrConfig = hrId ? HR_CONFIGS[hrId] : undefined;
 
-    getFileUrl(CV_CONFIG.filePath).then(url => {
+  useEffect(() => {
+    if (!hrConfig) {
+      navigate('/404');
+      return;
+    }
+
+    document.title = hrConfig.title;
+
+    getFileUrl(hrConfig.filePath).then(url => {
       setPdfUrl(url);
     });
-  }, []);
+  }, [hrConfig, navigate]);
 
   useEffect(() => {
     if (!pdfUrl) return;
@@ -113,7 +122,7 @@ export default function CVPreview() {
     };
   }, [pdfUrl]);
 
-  if (!pdfUrl) return null;
+  if (!hrConfig || !pdfUrl) return null;
 
   return (
     <div className={css.container}>
@@ -121,9 +130,9 @@ export default function CVPreview() {
         <div className={clsx(css.toolbar)}>
           <Link to='/' className={css.backLink}>
             <span className={css.backSymbol}>{'<'}</span>
-            <span className={css.backButton}>{'Portfolio'}</span>
+            <span className={css.backButton}>Portfolio</span>
           </Link>
-          <h1 className={css.title}>CV Preview</h1>
+          <h1 className={css.title}>Message for {hrConfig.name}</h1>
           <button
             onClick={async () => {
               try {
@@ -132,7 +141,7 @@ export default function CVPreview() {
                 const downloadUrl = window.URL.createObjectURL(blob);
                 const link = document.createElement('a');
                 link.href = downloadUrl;
-                link.download = CV_CONFIG.downloadName;
+                link.download = hrConfig.downloadName;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);

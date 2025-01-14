@@ -2,7 +2,9 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header/Header';
 import LoadingSpinner from './LoadingSpinner/LoadingSpinner';
+
 const CVPreview = lazy(() => import('./CVPreview/CVPreview'));
+const HRPreview = lazy(() => import('./HRPreview/HRPreview'));
 const Main = lazy(() => import('./Main/Main'));
 const Footer = lazy(() => import('./Footer/Footer'));
 const NotFound = lazy(() => import('./NotFound/NotFound'));
@@ -16,6 +18,14 @@ export default function App() {
           element={
             <Suspense fallback={<LoadingSpinner />}>
               <CVPreview />
+            </Suspense>
+          }
+        />
+        <Route
+          path='/hr/:hrId'
+          element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <HRPreview />
             </Suspense>
           }
         />
