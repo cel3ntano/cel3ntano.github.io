@@ -2,6 +2,15 @@ import { Project } from '@/types/project';
 
 export const projects: Project[] = [
   {
+    id: 'linguaBridge',
+    title: 'Lingua Bridge',
+    description:
+      'A modern web application built with Next.js and TypeScript that helps users find language tutors. Users can browse teachers, filter by language, level, and price, view detailed profiles with reviews, and book trial lessons. The app features Firebase authentication, allowing users to create accounts and maintain a favorites list. Built with a responsive design, it works seamlessly across devices and uses Tailwind CSS for styling and Redux Toolkit for state management.',
+    githubLink: 'https://github.com/cel3ntano/LinguaBridge',
+    liveLink: 'https://linguabridge.zhygalko.dev//',
+    technologies: ['Next.js', 'Typescript', 'Tailwind CSS'],
+  },
+  {
     id: 'campers',
     title: 'Campers App',
     description:
@@ -44,14 +53,14 @@ The project included features like easy navigation, product listings, user revie
     liveLink: 'https://projects.zhygalko.dev/project-vegetables24/',
     technologies: ['HTML', 'CSS', 'JavaScript'],
   },
-  {
-    id: 'web_studio',
-    title: 'Web Studio',
-    description: `An individual project where I developed a simple yet attractive landing page concept for a web studio. The page showcases company features, showcases the team and portfolio, and includes a contact form accessible via a modal window. This early project helped me refine my HTML and CSS skills, particularly in creating responsive, mobile-friendly designs and ensuring a seamless user experience.`,
-    githubLink: 'https://github.com/cel3ntano/goit-markup-hw-06/',
-    liveLink: 'https://projects.zhygalko.dev/goit-markup-hw-06/',
-    technologies: ['HTML', 'CSS'],
-  },
+  // {
+  //   id: 'web_studio',
+  //   title: 'Web Studio',
+  //   description: `An individual project where I developed a simple yet attractive landing page concept for a web studio. The page showcases company features, showcases the team and portfolio, and includes a contact form accessible via a modal window. This early project helped me refine my HTML and CSS skills, particularly in creating responsive, mobile-friendly designs and ensuring a seamless user experience.`,
+  //   githubLink: 'https://github.com/cel3ntano/goit-markup-hw-06/',
+  //   liveLink: 'https://projects.zhygalko.dev/goit-markup-hw-06/',
+  //   technologies: ['HTML', 'CSS'],
+  // },
   //   {
   //     id: 'trendy_cookies',
   //     title: 'Trendy Cookies',
