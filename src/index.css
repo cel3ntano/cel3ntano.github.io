@@ -7,7 +7,7 @@
 
 :root {
   /* Colors */
-  --violet: #6129d4;
+  --violet: hsla(259, 65%, 50%, 0.3);
   --black: #212121;
   --white: #fcfcfc;
   --green: #23ce6b;
@@ -52,6 +52,7 @@
 
 /* Light Theme */
 :root.light {
+  --violet: hsla(259, 65%, 50%, 0.9);
   --placeholder-color: grey;
   --footer-bg: rgba(0, 0, 0, 0.1);
   --recaptcha-border: rgb(214, 204, 204);

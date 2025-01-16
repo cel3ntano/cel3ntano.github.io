@@ -4,6 +4,26 @@ import css from './Projects.module.css';
 import sprite from '@/assets/sprite.svg';
 
 export default function Projects() {
+  const handleMouseMove = (e: React.MouseEvent<HTMLLIElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    card.style.setProperty('--x', x.toString());
+    card.style.setProperty('--y', y.toString());
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>) => {
+    const card = e.currentTarget;
+    card.setAttribute('data-glow', 'true');
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLLIElement>) => {
+    const card = e.currentTarget;
+    card.setAttribute('data-glow', 'false');
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,7 +65,11 @@ export default function Projects() {
           <motion.li
             key={project.id}
             className={css.project}
-            variants={projectVariants}>
+            variants={projectVariants}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            data-glow='false'>
             <article>
               <div className={css.projectHeader}>
                 <svg className={css.folderIcon} width='50' height='50'>
