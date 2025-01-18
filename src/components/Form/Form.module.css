@@ -37,6 +37,12 @@
   color: var(--text-color);
   transition: var(--transition-default);
   font-weight: 500;
+  &:hover {
+    border: 1px solid var(--light-green);
+  }
+  &:focus {
+    border: 1px solid var(--light-green);
+  }
 }
 
 .container form input::placeholder,
