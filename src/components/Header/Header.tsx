@@ -4,44 +4,49 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import css from './Header.module.css';
-import EnhancedObserverDebug from '../EnhancedObserverDebug/EnhancedObserverDebug';
 
-export default function Header() {
-  const [showDebugOverlay, setShowDebugOverlay] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [isLightTheme, setIsLightTheme] = useState(() => {
+interface VisibleSection {
+  id: string;
+  ratio: number;
+  distanceFromTop: number;
+}
+
+interface NavLink {
+  to: string;
+  label: string;
+  isHashLink: boolean;
+  isButton?: boolean;
+}
+
+const navLinks: NavLink[] = [
+  { to: '#home', label: 'Home', isHashLink: true },
+  { to: '#about', label: 'About me', isHashLink: true },
+  { to: '#projects', label: 'Projects', isHashLink: true },
+  { to: '#contacts', label: 'Contacts', isHashLink: true },
+  { to: '/cv', label: 'View CV', isHashLink: false, isButton: true },
+];
+
+const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [activeSection, setActiveSection] = useState<string>('home');
+  const [isLightTheme, setIsLightTheme] = useState<boolean>(() => {
     const savedTheme = localStorage.getItem('theme');
     return savedTheme === 'light';
   });
 
-  // useEffect(() => {
-  //   const handleKeyPress = (event: KeyboardEvent) => {
-  //     if (event.altKey && event.key === 'd') {
-  //       setShowDebugOverlay(prev => !prev);
-  //     }
-  //   };
-
-  //   window.addEventListener('keydown', handleKeyPress);
-  //   return () => window.removeEventListener('keydown', handleKeyPress);
-  // }, []);
-
-  const createObserver = useCallback(() => {
-    const observerOptions = {
+  const createObserver = useCallback((): IntersectionObserver => {
+    const observerOptions: IntersectionObserverInit = {
       rootMargin: '-40% 0px -50% 0px',
-      // threshold: 0.2,
     };
 
-    return new IntersectionObserver(entries => {
-      const visibleSections = entries
+    return new IntersectionObserver((entries: IntersectionObserverEntry[]) => {
+      const visibleSections: VisibleSection[] = entries
         .filter(entry => entry.isIntersecting)
         .map(entry => ({
           id: entry.target.id,
           ratio: entry.intersectionRatio,
           distanceFromTop: entry.boundingClientRect.top,
         }));
-
-      // console.log('Visible sections:', visibleSections);
 
       if (visibleSections.length > 0) {
         const mostVisible = visibleSections.reduce((prev, current) => {
@@ -78,7 +83,7 @@ export default function Header() {
     const maxRetries = 5;
     const retryInterval = 1000;
 
-    const setupObserver = () => {
+    const setupObserver = (): boolean => {
       const sections = document.querySelectorAll('section[id]');
 
       if (sections.length > 0) {
@@ -106,7 +111,7 @@ export default function Header() {
     };
   }, [createObserver]);
 
-  function toggleTheme() {
+  const toggleTheme = (): void => {
     const html = document.documentElement;
     const newTheme = html.classList.contains('light') ? 'dark' : 'light';
 
@@ -119,11 +124,11 @@ export default function Header() {
     }
 
     localStorage.setItem('theme', newTheme);
-  }
+  };
 
-  function closeMenu() {
+  const closeMenu = (): void => {
     setMenuOpen(false);
-  }
+  };
 
   return (
     <motion.header
@@ -161,37 +166,31 @@ export default function Header() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.1 }}>
-          <HashLink
-            smooth
-            to='#home'
-            onClick={closeMenu}
-            className={clsx(activeSection === 'home' && css.activeLink)}>
-            Home
-          </HashLink>
-          <HashLink
-            smooth
-            to='#about'
-            onClick={closeMenu}
-            className={clsx(activeSection === 'about' && css.activeLink)}>
-            About me
-          </HashLink>
-          <HashLink
-            smooth
-            to='#projects'
-            onClick={closeMenu}
-            className={clsx(activeSection === 'projects' && css.activeLink)}>
-            Projects
-          </HashLink>
-          <HashLink
-            smooth
-            to='#contacts'
-            onClick={closeMenu}
-            className={clsx(activeSection === 'contacts' && css.activeLink)}>
-            Contacts
-          </HashLink>
-          <Link to='/cv' className={clsx(css.button, 'button')}>
-            View CV
-          </Link>
+          {navLinks.map(({ to, label, isHashLink, isButton }) => {
+            if (isHashLink) {
+              return (
+                <HashLink
+                  key={to}
+                  to={to}
+                  smooth
+                  onClick={closeMenu}
+                  className={clsx(
+                    isButton && [css.button, 'button'],
+                    !isButton && activeSection === to.slice(1) && css.activeLink
+                  )}>
+                  {label}
+                </HashLink>
+              );
+            }
+            return (
+              <Link
+                key={to}
+                to={to}
+                className={clsx(isButton && [css.button, 'button'])}>
+                {label}
+              </Link>
+            );
+          })}
         </motion.nav>
 
         <motion.div
@@ -209,11 +208,8 @@ export default function Header() {
           onClick={() => setMenuOpen(!menuOpen)}
         />
       </div>
-      {/* <EnhancedObserverDebug
-        topMargin='-40%'
-        bottomMargin='-50%'
-        isVisible={showDebugOverlay}
-      /> */}
     </motion.header>
   );
-}
+};
+
+export default Header;
