@@ -1,7 +1,6 @@
 import { useEffect, useState, Suspense, lazy } from 'react';
 import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
-import { type Engine, type ISourceOptions } from '@tsparticles/engine';
 import css from './Main.module.css';
 import wordpress from '@/assets/wordpress.svg';
 import htmlIcon from '@/assets/html-icon.svg';
@@ -11,22 +10,41 @@ import nodeIcon from '@/assets/node-icon.svg';
 import reactIcon from '@/assets/react-icon.svg';
 import vscodeIcon from '@/assets/vscode-icon.svg';
 import typescriptIcon from '@/assets/typescript-icon.svg';
+import {
+  type Engine,
+  type ISourceOptions,
+  RecursivePartial,
+  IShapeValues,
+} from '@tsparticles/engine';
 
 const Hero = lazy(() => import('../Hero/Hero'));
 const About = lazy(() => import('../About/About'));
 const Projects = lazy(() => import('../Projects/Projects'));
 const Contacts = lazy(() => import('../Contacts/Contacts'));
 
-export default function Main() {
-  const [isEngineReady, setIsEngineReady] = useState(false);
+interface ParticleImageSource {
+  src: string;
+}
+
+interface MainProps {
+  className?: string;
+}
+
+const Main: React.FC<MainProps> = ({ className }) => {
+  const [isEngineReady, setIsEngineReady] = useState<boolean>(false);
 
   useEffect(() => {
-    initParticlesEngine(async (engine: Engine) => {
-      await loadSlim(engine);
-    }).then(() => setIsEngineReady(true));
+    const initEngine = async (): Promise<void> => {
+      await initParticlesEngine(async (engine: Engine) => {
+        await loadSlim(engine);
+      });
+      setIsEngineReady(true);
+    };
+
+    initEngine().catch(console.error);
   }, []);
 
-  const particleImages = [
+  const particleImages: ParticleImageSource[] = [
     { src: cssIcon },
     { src: vscodeIcon },
     { src: wordpress },
@@ -35,11 +53,7 @@ export default function Main() {
     { src: nodeIcon },
     { src: reactIcon },
     { src: typescriptIcon },
-  ].map(img => ({
-    ...img,
-    width: 20,
-    height: 20,
-  }));
+  ];
 
   const options: ISourceOptions = {
     fullScreen: {
@@ -143,7 +157,11 @@ export default function Main() {
       shape: {
         type: 'image',
         options: {
-          image: particleImages,
+          image: particleImages.map(img => ({
+            src: img.src,
+            width: 20,
+            height: 20,
+          })) as RecursivePartial<IShapeValues>[],
         },
       },
       size: {
@@ -153,7 +171,6 @@ export default function Main() {
         },
         animation: {
           enable: true,
-          // destroy: 'min',
           speed: 2,
           sync: false,
         },
@@ -168,7 +185,7 @@ export default function Main() {
   };
 
   return (
-    <main className={`${css.container} container`}>
+    <main className={`${css.container} container ${className ?? ''}`}>
       {isEngineReady && <Particles id='tsparticles' options={options} />}
       <Suspense fallback={null}>
         <Hero />
@@ -187,4 +204,6 @@ export default function Main() {
       </Suspense>
     </main>
   );
-}
+};
+
+export default Main;
