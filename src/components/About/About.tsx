@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, Variants } from 'framer-motion';
 import { useRef } from 'react';
 import css from './About.module.css';
 
@@ -11,70 +11,75 @@ import nodeIcon from '@/assets/node-icon.svg';
 import reactIcon from '@/assets/react-icon.svg';
 import typescriptIcon from '@/assets/typescript-icon.svg';
 
-export default function About() {
-  const ref = useRef(null);
+interface Skill {
+  src: string;
+  alt: string;
+}
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const textVariants: Variants = {
+  hidden: { opacity: 0, x: -50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5 },
+  },
+};
+
+const skillsContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.6,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const skillItemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
+};
+
+const imageVariants: Variants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, delay: 0.4 },
+  },
+};
+
+const skills: readonly Skill[] = [
+  { src: reactIcon, alt: 'React' },
+  { src: jsIcon, alt: 'JavaScript' },
+  { src: typescriptIcon, alt: 'Typescript' },
+  { src: nodeIcon, alt: 'Node' },
+  { src: wordpress, alt: 'Wordpress' },
+  { src: htmlIcon, alt: 'Html' },
+  { src: cssIcon, alt: 'Css' },
+] as const;
+
+const About: React.FC = () => {
+  const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, {
     once: true,
     amount: 0.3,
   });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const textVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
-  const skillsContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.6,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const skillItemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: { duration: 0.5, delay: 0.4 },
-    },
-  };
-
-  const skills = [
-    { src: reactIcon, alt: 'React' },
-    { src: jsIcon, alt: 'JavaScript' },
-    { src: typescriptIcon, alt: 'Typescript' },
-    { src: nodeIcon, alt: 'Node' },
-    { src: wordpress, alt: 'Wordpress' },
-    { src: htmlIcon, alt: 'Html' },
-    { src: cssIcon, alt: 'Css' },
-  ];
 
   return (
     <section id='about' className={`${css.container} container`} ref={ref}>
@@ -130,4 +135,6 @@ export default function About() {
       </motion.div>
     </section>
   );
-}
+};
+
+export default About;
