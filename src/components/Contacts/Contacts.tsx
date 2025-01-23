@@ -67,7 +67,7 @@ export default function Contacts() {
         </motion.div>
         <motion.div variants={itemVariants}>
           <motion.a
-            href='tel:+919630576848'
+            href='tel:+393201836658'
             // whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}>
             <svg width='40' height='40'>
@@ -75,7 +75,7 @@ export default function Contacts() {
             </svg>
           </motion.a>
           <motion.a
-            href='tel:+919630576848'
+            href='tel:+393201836658'
             // whileHover={{ scale: 1.05 }}
           >
             (+39) 320 183 66 58
