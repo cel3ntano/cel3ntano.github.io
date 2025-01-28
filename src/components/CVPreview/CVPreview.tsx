@@ -9,20 +9,41 @@ import { getFileUrl } from '@/utils/supabaseClient';
 import { CV_CONFIG } from '@/data/cvConfig';
 import css from './CVPreview.module.css';
 
+interface PDFViewerOptions {
+  container: HTMLDivElement;
+  eventBus: pdfjsViewer.EventBus;
+  linkService: pdfjsViewer.PDFLinkService;
+  findController: pdfjsViewer.PDFFindController;
+  l10n: undefined;
+  textLayerMode: number;
+}
+
+interface PDFViewer {
+  cleanup?: () => void;
+  currentScale: number;
+  currentScaleValue: string;
+  pagesCount?: number;
+  setDocument: (pdf: pdfjsLib.PDFDocumentProxy) => void;
+}
+
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
-export default function CVPreview() {
+export default function CVPreview(): JSX.Element | null {
   const containerRef = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<any>(null);
-  const initialized = useRef(false);
-  const [pdfUrl, setPdfUrl] = useState<string>();
+  const viewerRef = useRef<PDFViewer | null>(null);
+  const initialized = useRef<boolean>(false);
+  const [pdfUrl, setPdfUrl] = useState<string | undefined>();
 
   useEffect(() => {
     document.title = CV_CONFIG.title;
 
-    getFileUrl(CV_CONFIG.filePath).then(url => {
-      setPdfUrl(url);
-    });
+    getFileUrl(CV_CONFIG.filePath)
+      .then((url: string) => {
+        setPdfUrl(url);
+      })
+      .catch((error: Error) => {
+        console.error('Error fetching PDF URL:', error);
+      });
   }, []);
 
   useEffect(() => {
@@ -55,13 +76,13 @@ export default function CVPreview() {
         });
 
         const pdfViewer = new pdfjsViewer.PDFViewer({
-          container: viewerContainer as HTMLDivElement,
+          container: viewerContainer,
           eventBus,
           linkService: pdfLinkService,
           findController: pdfFindController,
           l10n: undefined,
           textLayerMode: 2,
-        });
+        } as PDFViewerOptions) as PDFViewer;
 
         viewerRef.current = pdfViewer;
         pdfLinkService.setViewer(pdfViewer);
@@ -71,7 +92,7 @@ export default function CVPreview() {
         pdfViewer.setDocument(pdf);
         pdfLinkService.setDocument(pdf);
 
-        const setResponsiveScale = () => {
+        const setResponsiveScale = (): void => {
           if (!viewerRef.current?.pagesCount) return;
 
           try {
@@ -113,6 +134,25 @@ export default function CVPreview() {
     };
   }, [pdfUrl]);
 
+  const handleDownload = async (): Promise<void> => {
+    if (!pdfUrl) return;
+
+    try {
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = CV_CONFIG.downloadName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
   if (!pdfUrl) return null;
 
   return (
@@ -125,23 +165,9 @@ export default function CVPreview() {
           </Link>
           <h1 className={css.title}>CV Preview</h1>
           <button
-            onClick={async () => {
-              try {
-                const response = await fetch(pdfUrl);
-                const blob = await response.blob();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = downloadUrl;
-                link.download = CV_CONFIG.downloadName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(downloadUrl);
-              } catch (error) {
-                console.error('Download failed:', error);
-              }
-            }}
-            className={clsx(css.button, 'button')}>
+            onClick={handleDownload}
+            className={clsx(css.button, 'button')}
+            type='button'>
             <span className={css.buttonText}>Download PDF</span>
             <Download className={css.buttonIcon} size={20} />
           </button>
@@ -149,7 +175,7 @@ export default function CVPreview() {
       </header>
       <div ref={containerRef} className={css.pdfContainer}>
         <div className='pdfViewerContainer'>
-          <div className='pdfViewer'></div>
+          <div className='pdfViewer' />
         </div>
       </div>
     </div>
