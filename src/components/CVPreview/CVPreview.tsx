@@ -8,23 +8,7 @@ import 'pdfjs-dist/web/pdf_viewer.css';
 import { getFileUrl } from '@/utils/supabaseClient';
 import { CV_CONFIG } from '@/data/cvConfig';
 import css from './CVPreview.module.css';
-
-interface PDFViewerOptions {
-  container: HTMLDivElement;
-  eventBus: pdfjsViewer.EventBus;
-  linkService: pdfjsViewer.PDFLinkService;
-  findController: pdfjsViewer.PDFFindController;
-  l10n: undefined;
-  textLayerMode: number;
-}
-
-interface PDFViewer {
-  cleanup?: () => void;
-  currentScale: number;
-  currentScaleValue: string;
-  pagesCount?: number;
-  setDocument: (pdf: pdfjsLib.PDFDocumentProxy) => void;
-}
+import { PDFViewer, PDFViewerOptions } from '@/types/pdf';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 

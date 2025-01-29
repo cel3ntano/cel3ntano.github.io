@@ -8,16 +8,17 @@ import 'pdfjs-dist/web/pdf_viewer.css';
 import { getFileUrl } from '@/utils/supabaseClient';
 import css from './HRPreview.module.css';
 import { HR_CONFIGS } from '@/data/hrConfigs';
+import { PDFViewer, PDFViewerOptions } from '@/types/pdf';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
-export default function HRPreview() {
+export default function HRPreview(): JSX.Element | null {
   const containerRef = useRef<HTMLDivElement>(null);
-  const viewerRef = useRef<any>(null);
-  const initialized = useRef(false);
+  const viewerRef = useRef<PDFViewer | null>(null);
+  const initialized = useRef<boolean>(false);
   const navigate = useNavigate();
   const { hrId } = useParams<{ hrId: string }>();
-  const [pdfUrl, setPdfUrl] = useState<string>();
+  const [pdfUrl, setPdfUrl] = useState<string | undefined>();
 
   const hrConfig = hrId ? HR_CONFIGS[hrId] : undefined;
 
@@ -29,9 +30,13 @@ export default function HRPreview() {
 
     document.title = hrConfig.title;
 
-    getFileUrl(hrConfig.filePath).then(url => {
-      setPdfUrl(url);
-    });
+    getFileUrl(hrConfig.filePath)
+      .then((url: string) => {
+        setPdfUrl(url);
+      })
+      .catch((error: Error) => {
+        console.error('Error fetching PDF URL:', error);
+      });
   }, [hrConfig, navigate]);
 
   useEffect(() => {
@@ -64,13 +69,13 @@ export default function HRPreview() {
         });
 
         const pdfViewer = new pdfjsViewer.PDFViewer({
-          container: viewerContainer as HTMLDivElement,
+          container: viewerContainer,
           eventBus,
           linkService: pdfLinkService,
           findController: pdfFindController,
           l10n: undefined,
           textLayerMode: 2,
-        });
+        } as PDFViewerOptions) as PDFViewer;
 
         viewerRef.current = pdfViewer;
         pdfLinkService.setViewer(pdfViewer);
@@ -80,7 +85,7 @@ export default function HRPreview() {
         pdfViewer.setDocument(pdf);
         pdfLinkService.setDocument(pdf);
 
-        const setResponsiveScale = () => {
+        const setResponsiveScale = (): void => {
           if (!viewerRef.current?.pagesCount) return;
 
           try {
@@ -122,6 +127,25 @@ export default function HRPreview() {
     };
   }, [pdfUrl]);
 
+  const handleDownload = async (): Promise<void> => {
+    if (!pdfUrl || !hrConfig) return;
+
+    try {
+      const response = await fetch(pdfUrl);
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = hrConfig.downloadName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
   if (!hrConfig || !pdfUrl) return null;
 
   return (
@@ -134,23 +158,9 @@ export default function HRPreview() {
           </Link>
           <h1 className={css.title}>Message for {hrConfig.name}</h1>
           <button
-            onClick={async () => {
-              try {
-                const response = await fetch(pdfUrl);
-                const blob = await response.blob();
-                const downloadUrl = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = downloadUrl;
-                link.download = hrConfig.downloadName;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                window.URL.revokeObjectURL(downloadUrl);
-              } catch (error) {
-                console.error('Download failed:', error);
-              }
-            }}
-            className={clsx(css.button, 'button')}>
+            onClick={handleDownload}
+            className={clsx(css.button, 'button')}
+            type='button'>
             <span className={css.buttonText}>Download PDF</span>
             <Download className={css.buttonIcon} size={20} />
           </button>
@@ -158,7 +168,7 @@ export default function HRPreview() {
       </header>
       <div ref={containerRef} className={css.pdfContainer}>
         <div className='pdfViewerContainer'>
-          <div className='pdfViewer'></div>
+          <div className='pdfViewer' />
         </div>
       </div>
     </div>
