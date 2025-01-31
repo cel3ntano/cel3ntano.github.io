@@ -9,7 +9,7 @@ const Main = lazy(() => import('./Main/Main'));
 const Footer = lazy(() => import('./Footer/Footer'));
 const NotFound = lazy(() => import('./NotFound/NotFound'));
 
-export default function App() {
+export const App: React.FC = () => {
   return (
     <Router>
       <Routes>
@@ -54,4 +54,4 @@ export default function App() {
       </Routes>
     </Router>
   );
-}
+};
