@@ -17,6 +17,41 @@
   overflow: hidden;
 }
 
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 20rem;
+  width: 100%;
+  font-size: 1.8rem;
+  color: #ffffff;
+}
+
+.errorContainer {
+  color: #ff6b6b;
+}
+
+.notificationBanner {
+  background-color: rgba(255, 107, 107, 0.1);
+  border-left: 4px solid #ff6b6b;
+  padding: 1rem 2rem;
+  margin: 1rem 0;
+  border-radius: 0.4rem;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+
+.infoNotificationBanner {
+  background-color: rgba(30, 144, 255, 0.2);
+  border-left: 4px solid #1e90ff;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.4rem;
+  color: #ffffff;
+  font-size: 1.6rem;
+}
+
 @media (max-width: 960px) {
   .projects {
     grid-template-columns: 1fr 1fr;

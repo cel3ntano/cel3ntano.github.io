@@ -1,19 +1,12 @@
-import { motion } from 'framer-motion';
-import css from './ProjectCard.module.css';
-import sprite from '@/assets/sprite.svg';
+import { motion } from "framer-motion";
+import React from "react";
+import css from "./ProjectCard.module.css";
+import sprite from "@/assets/sprite.svg";
+import type { Project } from "@/types/project";
 
 export interface ProjectCardProps {
-  project: {
-    id: string;
-    title: string;
-    description: string;
-    githubLink?: string;
-    liveLink?: string;
-    technologies: string[];
-  };
+  project: Project;
 }
-
-type MouseEventHandler = (e: React.MouseEvent<HTMLLIElement>) => void;
 
 export const projectVariants = {
   hidden: { opacity: 0, scale: 0.8 },
@@ -27,22 +20,22 @@ export const projectVariants = {
 };
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const handleMouseMove: MouseEventHandler = e => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLLIElement>): void => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    card.style.setProperty('--x', x.toString());
-    card.style.setProperty('--y', y.toString());
+    card.style.setProperty("--x", x.toString());
+    card.style.setProperty("--y", y.toString());
   };
 
-  const handleMouseEnter: MouseEventHandler = e => {
-    e.currentTarget.setAttribute('data-glow', 'true');
+  const handleMouseEnter = (e: React.MouseEvent<HTMLLIElement>): void => {
+    e.currentTarget.setAttribute("data-glow", "true");
   };
 
-  const handleMouseLeave: MouseEventHandler = e => {
-    e.currentTarget.setAttribute('data-glow', 'false');
+  const handleMouseLeave = (e: React.MouseEvent<HTMLLIElement>): void => {
+    e.currentTarget.setAttribute("data-glow", "false");
   };
 
   return (

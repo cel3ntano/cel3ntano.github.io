@@ -1,6 +1,4 @@
-import { Project } from '@/types/project';
-
-export const projects: Project[] = [
+export const projects = [
   {
     id: 'prismProperty',
     title: 'Prism Property',
